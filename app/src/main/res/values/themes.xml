@@ -48,6 +48,11 @@
         <item name="cornerSizeBottomLeft">5%</item>
     </style>
 
+    <style name="ShapeAppearanceOverlay_image_all_corners" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">15%</item>
+    </style>
+
     <style name="Theme.MyApplication.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.MyApplication.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

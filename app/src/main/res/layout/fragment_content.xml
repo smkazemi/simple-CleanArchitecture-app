@@ -130,7 +130,7 @@
                         android:layout_width="@dimen/_35sdp"
                         android:layout_height="@dimen/_35sdp"
                         android:layout_margin="@dimen/_16sdp"
-                        android:background="@drawable/circle_dark_red"
+                        android:background="@drawable/circle_dark_red2"
                         android:gravity="center"
                         android:text="@{model.simillarLettersCount}"
                         android:textColor="@color/light_red"

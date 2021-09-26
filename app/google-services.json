@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "554094687486",
+    "project_id": "basalamtest",
+    "storage_bucket": "basalamtest.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:554094687486:android:eabfdf97ac6cae35e5e1af",
+        "android_client_info": {
+          "package_name": "com.basalam.intern.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "554094687486-siadu9q210ku6csct40o7agi9hhe4a0m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDklvwjH-HW8iqz5x-b1C_LCp6JoZxKNiI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "554094687486-siadu9q210ku6csct40o7agi9hhe4a0m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
