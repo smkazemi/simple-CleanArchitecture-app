@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_ContentFragment_to_ListFragment"
             app:destination="@id/ListFragment" />
+        <argument
+            android:name="model"
+            app:argType="com.basalam.intern.android.ui.listOfAnimalFlower.adapter.AnimalFlowerItemModel" />
 
     </fragment>
 

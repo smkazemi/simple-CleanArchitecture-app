@@ -5,11 +5,21 @@ import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.basalam.intern.android.App
 import com.basalam.intern.android.R
+import com.basalam.intern.android.data.remote.model.AnimalFlowerModel
+import com.basalam.intern.android.data.remote.response.NetworkStatus.*
 import com.basalam.intern.android.databinding.FragmentListAnimalFlowerBinding
+import com.basalam.intern.android.ui.listOfAnimalFlower.adapter.AnimalFlowerAdapter
+import com.basalam.intern.android.ui.listOfAnimalFlower.adapter.AnimalFlowerItemModel
+import com.basalam.intern.android.ui.main.MainViewModel
+import com.basalam.intern.android.util.Constant
 import com.basalam.intern.android.util.shortToast
 import com.basalam.intern.android.util.toLog
 
@@ -21,9 +31,17 @@ class AnimalFlowerListFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
+    private val viewModel: AnimalFlowerViewModel by viewModels()
+    private lateinit var mainViewModel: MainViewModel
+
+    private lateinit var animalList: List<AnimalFlowerModel>
+    private lateinit var flowerList: List<AnimalFlowerModel>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+
+        (requireActivity().application as App).appComponent.injectVieModel(viewModel)
 
     }
 
@@ -32,11 +50,75 @@ class AnimalFlowerListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
+        mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+
         _binding = FragmentListAnimalFlowerBinding.inflate(inflater, container, false)
 
         initView()
 
+        // everything start from here
+        // fetch data of animals and flowers from server OR get from viewModel
+
+        if (mainViewModel.animalList != null) {
+            showList()
+        } else {
+            getData()
+        }
+
         return binding.root
+
+    }
+
+    private fun getData() {
+
+        viewModel.getData().observe(viewLifecycleOwner) {
+
+            when (it.status) {
+
+                SUCCESS -> {
+
+                    animalList = it.data!![Constant.animal]!!
+                    flowerList = it.data[Constant.flower]!!
+
+                    mainViewModel.animalList = animalList
+                    mainViewModel.flowerList = flowerList
+
+                    showList()
+                }
+
+                LOADING -> {
+
+                    requireActivity().shortToast(getString(R.string.loading))
+                }
+
+                ERROR -> {
+
+                    requireActivity().shortToast(getString(R.string.apiError))
+
+                }
+
+                NETWORK_ERROR -> {
+
+                    requireActivity().shortToast(getString(R.string.checkNetwork))
+
+                }
+            }
+
+        }
+
+    }
+
+    private fun showList() {
+
+        binding.recFragmentList.apply {
+            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = AnimalFlowerAdapter(
+                mainViewModel.animalList!!,
+                mainViewModel.flowerList!!,
+                this@AnimalFlowerListFragment
+            )
+        }
 
     }
 
@@ -51,6 +133,14 @@ class AnimalFlowerListFragment : Fragment() {
             setupActionBarWithNavController(navController, appBarConfiguration)
 
         }
+
+    }
+
+    fun showDetail(model: AnimalFlowerItemModel) {
+
+        val dirc = AnimalFlowerListFragmentDirections.actionListFragmentToContentFragment(model)
+
+        findNavController().navigate(dirc)
 
     }
 
@@ -69,7 +159,6 @@ class AnimalFlowerListFragment : Fragment() {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 query.toString().toLog("search submited")
-                findNavController().navigate(R.id.action_ListFragment_to_ContentFragment)
                 return false
             }
 

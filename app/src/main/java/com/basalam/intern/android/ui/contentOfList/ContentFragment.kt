@@ -5,12 +5,15 @@ import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.viewpager.widget.ViewPager
 import com.basalam.intern.android.R
 import com.basalam.intern.android.databinding.FragmentContentBinding
 import com.basalam.intern.android.ui.contentOfList.adapter.ImagePagerAdapter
+import com.basalam.intern.android.ui.listOfAnimalFlower.adapter.AnimalFlowerItemModel
 import com.basalam.intern.android.util.toLog
 
 /**
@@ -18,11 +21,17 @@ import com.basalam.intern.android.util.toLog
  */
 class ContentFragment : Fragment() {
 
+    private lateinit var dataModel: AnimalFlowerItemModel
+    val imagei = 0
     private var _binding: FragmentContentBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+
+    val imageIndex = MutableLiveData<Int>().also {
+        it.value = 0
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,17 +44,17 @@ class ContentFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
+        dataModel = ContentFragmentArgs.fromBundle(requireArguments()).model
+
         _binding = FragmentContentBinding.inflate(inflater, container, false)
+
+        _binding!!.fragment = this
+        _binding!!.model = dataModel
+        _binding!!.lifecycleOwner = this
 
         initView()
 
         return binding.root
-
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
 
     }
 
@@ -64,9 +73,26 @@ class ContentFragment : Fragment() {
         }
 
         // view pager
-        binding.pagerContent.adapter = ImagePagerAdapter(requireContext(), listOf(""))
+        binding.pagerContent.adapter =
+            ImagePagerAdapter(requireContext(), listOf(dataModel.animalUrlImage, dataModel.flowerUrlImage))
+        binding.pagerContent.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+
+            }
+
+            override fun onPageSelected(position: Int) {
+                imageIndex.value = position
+            }
+
+            override fun onPageScrollStateChanged(state: Int) {
+            }
+
+        })
 
     }
+
+    fun getSimilarLetters(letters: Array<String>) = letters.joinToString(separator = "،")
+
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
 
@@ -105,7 +131,6 @@ class ContentFragment : Fragment() {
             else -> super.onOptionsItemSelected(item)
         }
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

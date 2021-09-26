@@ -1,142 +1,168 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#E5E5E5"
-    tools:context=".ui.contentOfList.ContentFragment">
 
-    <com.google.android.material.appbar.AppBarLayout
+<layout>
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="fragment"
+            type="com.basalam.intern.android.ui.contentOfList.ContentFragment" />
+
+        <variable
+            name="model"
+            type="com.basalam.intern.android.ui.listOfAnimalFlower.adapter.AnimalFlowerItemModel" />
+
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent"
+        android:background="#E5E5E5"
+        tools:context=".ui.contentOfList.ContentFragment">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_content"
+        <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/white"
-            android:layoutDirection="rtl" />
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent">
 
-    </com.google.android.material.appbar.AppBarLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.5">
-
-            <androidx.viewpager.widget.ViewPager
-                android:id="@+id/pagerContent"
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar_content"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/white"
+                android:layoutDirection="rtl" />
 
-            <LinearLayout
-                android:layout_marginBottom="@dimen/_4sdp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:gravity="center"
-                android:orientation="horizontal">
+        </com.google.android.material.appbar.AppBarLayout>
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="@dimen/_6sdp"
-                    android:layout_height="@dimen/_6sdp"
-                    android:layout_marginRight="@dimen/_2sdp"
-                    android:background="@drawable/circle_light"
-                    app:backgroundTint="@color/black" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="@dimen/_6sdp"
-                    android:layout_height="@dimen/_6sdp"
-                    android:background="@drawable/circle_light"
-                    app:backgroundTint="@color/gray" />
-
-            </LinearLayout>
-
-        </RelativeLayout>
-
-        <com.google.android.material.card.MaterialCardView
-            style="@style/CustomCardViewStyle"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="@dimen/_4sdp"
-            android:layout_weight="0.5"
-            app:cardElevation="1dp">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="0dp"
+                android:layout_weight="0.5">
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/txt_title"
-                    style="@style/boldFont"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginTop="@dimen/_16sdp"
-                    android:layout_marginRight="@dimen/_16sdp"
-                    android:text=" گراز / رز "
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_18ssp" />
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/pagerContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/txt_similarLetterTitle"
-                    style="@style/lightFont"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/txt_title"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginTop="@dimen/_8sdp"
-                    android:layout_marginRight="@dimen/_16sdp"
-                    android:text="@string/similarLetter"
-                    android:textColor="@color/dark_gray"
-                    android:textSize="@dimen/_14ssp" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/lightFont"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/txt_title"
-                    android:layout_marginTop="@dimen/_8sdp"
-                    android:layout_marginRight="@dimen/_4sdp"
-                    android:layout_toLeftOf="@id/txt_similarLetterTitle"
-                    android:text="ر ، ز"
-                    android:textColor="@color/dark_gray"
-                    android:textSize="@dimen/_14ssp" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="@dimen/_35sdp"
-                    android:layout_height="@dimen/_35sdp"
-                    android:layout_margin="@dimen/_16sdp"
-                    android:background="@drawable/circle_dark"
-                    android:gravity="center"
-                    android:text="2"
-                    android:textColor="@color/light_red"
-                    android:textSize="@dimen/_18ssp" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/lightFont"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/txt_similarLetterTitle"
-                    android:layout_margin="@dimen/_8sdp"
-                    android:gravity="right"
-                    android:justificationMode="inter_word"
-                    android:text="@string/loremIpsum"
-                    android:textColor="@color/light_gray"
-                    android:textSize="@dimen/_10sdp" />
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="@dimen/_4sdp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="@dimen/_6sdp"
+                        android:layout_height="@dimen/_6sdp"
+                        android:layout_marginRight="@dimen/_2sdp"
+                        android:background="@{fragment.imageIndex == 0 ? @drawable/circle_white : @drawable/circle_gray }" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="@dimen/_6sdp"
+                        android:layout_height="@dimen/_6sdp"
+                        android:background="@{fragment.imageIndex == 0 ? @drawable/circle_gray : @drawable/circle_white }" />
+
+                </LinearLayout>
+
             </RelativeLayout>
 
-        </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView
+                style="@style/CustomCardViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:layout_weight="0.5"
+                app:cardElevation="1dp">
 
-    </LinearLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/txt_title"
+                        style="@style/boldFont"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="@dimen/_16sdp"
+                        android:layout_marginRight="@dimen/_16sdp"
+                        android:text='@{model.animalName + " / " + model.flowerName}'
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_18ssp" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/txt_similarLetterTitle"
+                        style="@style/lightFont"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/txt_title"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:layout_marginRight="@dimen/_16sdp"
+                        android:text="@string/similarLetter"
+                        android:textColor="@color/dark_gray"
+                        android:textSize="@dimen/_14ssp" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/lightFont"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/txt_title"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:layout_marginRight="@dimen/_4sdp"
+                        android:layout_toLeftOf="@id/txt_similarLetterTitle"
+                        android:text="@{fragment.getSimilarLetters(model.simillarLetters)}"
+                        android:textColor="@color/dark_gray"
+                        android:textSize="@dimen/_14ssp" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="@dimen/_35sdp"
+                        android:layout_height="@dimen/_35sdp"
+                        android:layout_margin="@dimen/_16sdp"
+                        android:background="@drawable/circle_dark_red"
+                        android:gravity="center"
+                        android:text="@{model.simillarLettersCount}"
+                        android:textColor="@color/light_red"
+                        android:textSize="@dimen/_16ssp" />
 
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+                    <ScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@id/txt_similarLetterTitle">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/txt_detail"
+                            style="@style/lightFont"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_8sdp"
+                            android:gravity="right"
+                            android:justificationMode="inter_word"
+                            android:text="@string/loremIpsum"
+                            android:textColor="@color/light_gray"
+                            android:textSize="@dimen/_10sdp" />
+
+                    </ScrollView>
+
+                </RelativeLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>

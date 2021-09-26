@@ -1,125 +1,150 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+
+<layout>
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.basalam.intern.android.ui.listOfAnimalFlower.adapter.AnimalFlowerItemModel" />
+
+        <variable
+            name="owner"
+            type="com.basalam.intern.android.ui.listOfAnimalFlower.AnimalFlowerListFragment" />
+
+    </data>
 
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:elevation="@dimen/_6sdp"
-        app:layout_anchor="@id/card"
-        app:layout_anchorGravity="left|center">
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:scaleType="centerCrop"
-            app:srcCompat="@drawable/circle_dark" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:scaleType="centerCrop"
-            app:srcCompat="@drawable/circle_light" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:scaleType="centerCrop"
-            app:srcCompat="@drawable/ic_back" />
-
-    </RelativeLayout>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/card"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/_32sdp"
-        app:cardCornerRadius="@dimen/_16sdp"
-        android:layout_marginRight="@dimen/_8sdp"
-        android:layout_marginTop="@dimen/_6sdp"
-        android:layout_marginBottom="@dimen/_6sdp">
+        android:layout_height="wrap_content">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:elevation="@dimen/_6sdp"
+            app:layout_anchor="@id/card"
+            app:layout_anchorGravity="left|center">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/circle_dark_red" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/circle_dark_red" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@drawable/circle_light_red"
+                android:clickable="true"
+                android:onClick="@{()->owner.showDetail(model)}"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/ripple_btn" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/ic_back" />
+
+
+        </RelativeLayout>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_32sdp"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:layout_marginRight="@dimen/_8sdp"
+            android:layout_marginBottom="@dimen/_6sdp"
+            app:cardCornerRadius="@dimen/_16sdp">
 
-            <com.basalam.intern.android.ui.toolkit.RoundImageView
-                android:id="@+id/img_animal"
-                android:layout_width="@dimen/_56sdp"
-                android:layout_height="@dimen/_56sdp"
-                android:layout_margin="@dimen/_8sdp"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_launcher_background" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <com.basalam.intern.android.ui.toolkit.RoundImageView
-                android:id="@+id/img_flower"
-                android:layout_width="@dimen/_56sdp"
-                android:layout_height="@dimen/_56sdp"
-                android:layout_marginTop="@dimen/_16sdp"
-                android:layout_marginRight="@dimen/_16sdp"
-                android:layout_marginBottom="@dimen/_8sdp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toRightOf="@id/img_animal"
-                app:layout_constraintTop_toTopOf="@id/img_animal"
-                android:background="@drawable/white_border"
-                app:srcCompat="@drawable/ic_launcher_background" />
+                <com.basalam.intern.android.ui.toolkit.RoundImageView
+                    android:id="@+id/img_animal"
+                    imageUrl="@{model.animalUrlImage}"
+                    android:layout_width="@dimen/_56sdp"
+                    android:layout_height="@dimen/_56sdp"
+                    android:layout_margin="@dimen/_8sdp"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_launcher_background" />
+
+                <com.basalam.intern.android.ui.toolkit.RoundImageView
+                    android:id="@+id/img_flower"
+                    imageUrl="@{model.flowerUrlImage}"
+                    android:layout_width="@dimen/_56sdp"
+                    android:layout_height="@dimen/_56sdp"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:layout_marginRight="@dimen/_16sdp"
+                    android:layout_marginBottom="@dimen/_8sdp"
+                    android:background="@drawable/white_border"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="@id/img_animal"
+                    app:layout_constraintTop_toTopOf="@id/img_animal"
+                    app:srcCompat="@drawable/ic_launcher_background" />
 
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txtFlowerAnimal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:layout_marginRight="@dimen/_8sdp"
-                android:text="گراز/ رز"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_15ssp"
-                app:layout_constraintRight_toLeftOf="@id/img_flower"
-                app:layout_constraintTop_toTopOf="@id/img_animal" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtFlowerAnimal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:layout_marginRight="@dimen/_8sdp"
+                    android:text='@{model.animalName + " / " + model.flowerName}'
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_15ssp"
+                    app:layout_constraintRight_toLeftOf="@id/img_flower"
+                    app:layout_constraintTop_toTopOf="@id/img_animal" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txt_similarWordLetter"
-                style="@style/lightFont"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/txtFlowerAnimal"
-                android:layout_marginTop="@dimen/_4sdp"
-                android:layout_marginRight="@dimen/_8sdp"
-                android:text="@string/similarletter"
-                android:textColor="@color/gray"
-                android:textSize="@dimen/_11ssp"
-                app:layout_constraintBottom_toBottomOf="@id/img_flower"
-                app:layout_constraintRight_toLeftOf="@id/img_flower"
-                app:layout_constraintTop_toBottomOf="@id/txtFlowerAnimal" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txt_similarWordLetter"
+                    style="@style/lightFont"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txtFlowerAnimal"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:layout_marginRight="@dimen/_8sdp"
+                    android:text="@string/similarletter"
+                    android:textColor="@color/gray"
+                    android:textSize="@dimen/_11ssp"
+                    app:layout_constraintBottom_toBottomOf="@id/img_flower"
+                    app:layout_constraintRight_toLeftOf="@id/img_flower"
+                    app:layout_constraintTop_toBottomOf="@id/txtFlowerAnimal" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                style="@style/lightFont"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/txtFlowerAnimal"
-                android:layout_marginRight="@dimen/_4ssp"
-                android:text="10"
-                android:textColor="@color/gray"
-                android:textSize="@dimen/_11ssp"
-                app:layout_constraintBaseline_toBaselineOf="@id/txt_similarWordLetter"
-                app:layout_constraintRight_toLeftOf="@id/txt_similarWordLetter" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/lightFont"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txtFlowerAnimal"
+                    android:layout_marginRight="@dimen/_4ssp"
+                    android:text='@{model.simillarLettersCount}'
+                    android:textColor="@color/gray"
+                    android:textSize="@dimen/_11ssp"
+                    app:layout_constraintBaseline_toBaselineOf="@id/txt_similarWordLetter"
+                    app:layout_constraintRight_toLeftOf="@id/txt_similarWordLetter" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.cardview.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>

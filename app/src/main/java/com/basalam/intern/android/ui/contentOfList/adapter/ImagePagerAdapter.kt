@@ -8,7 +8,7 @@ import android.widget.FrameLayout
 import androidx.viewpager.widget.PagerAdapter
 import com.basalam.intern.android.databinding.ItemViewPagerContentBinding
 
-class ImagePagerAdapter(val context: Context, imageUrlList: List<String>) : PagerAdapter() {
+class ImagePagerAdapter(val context: Context, val imageUrlList: List<String>) : PagerAdapter() {
     override fun getCount(): Int {
         return 2
     }
@@ -20,7 +20,8 @@ class ImagePagerAdapter(val context: Context, imageUrlList: List<String>) : Page
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
 
         val binding = ItemViewPagerContentBinding.inflate(LayoutInflater.from(context))
-
+        binding.imgUrl = imageUrlList[position]
+        binding.executePendingBindings()
         container.addView(binding.root)
 
         return binding.root
