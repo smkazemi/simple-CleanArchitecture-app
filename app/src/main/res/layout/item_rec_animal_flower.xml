@@ -111,6 +111,8 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             app:cardBackgroundColor="@android:color/transparent"
+            android:background="@null"
+            app:backgroundTint="@android:color/transparent"
             app:cardElevation="@dimen/_2sdp"
             app:layout_anchor="@id/card"
             app:layout_anchorGravity="left|center">
