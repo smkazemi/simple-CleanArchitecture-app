@@ -6,12 +6,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.basalam.intern.android.App
 import com.basalam.intern.android.R
 import com.basalam.intern.android.data.remote.model.AnimalFlowerModel
 import com.basalam.intern.android.data.remote.response.NetworkStatus.*
@@ -22,7 +24,11 @@ import com.basalam.intern.android.ui.main.MainViewModel
 import com.basalam.intern.android.util.Constant
 import com.basalam.intern.android.util.shortToast
 import com.basalam.intern.android.util.toLog
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class AnimalFlowerListFragment : Fragment() {
 
     private var _binding: FragmentListAnimalFlowerBinding? = null
@@ -41,8 +47,6 @@ class AnimalFlowerListFragment : Fragment() {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
 
-        (requireActivity().application as App).appComponent.injectVieModel(viewModel)
-
     }
 
     override fun onCreateView(
@@ -57,21 +61,26 @@ class AnimalFlowerListFragment : Fragment() {
         initView()
 
         // everything start from here
-        // fetch data of animals and flowers from server OR get from viewModel
+        // fetch data of animals and flowers from server OR get from shared viewModel
+            viewLifecycleOwner.lifecycleScope.launch {
 
-        if (mainViewModel.animalList != null) {
-            showList()
-        } else {
-            getData()
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+
+                if (mainViewModel.animalList != null) {
+                    showList()
+                } else {
+                    getData()
+                }
+            }
         }
 
         return binding.root
 
     }
 
-    private fun getData() {
+    private suspend fun getData() {
 
-        viewModel.getData().observe(viewLifecycleOwner) {
+        viewModel.getData().collect {
 
             when (it.status) {
 
@@ -84,6 +93,7 @@ class AnimalFlowerListFragment : Fragment() {
                     mainViewModel.flowerList = flowerList
 
                     showList()
+
                 }
 
                 LOADING -> {
@@ -158,7 +168,7 @@ class AnimalFlowerListFragment : Fragment() {
         searchView.queryHint = getString(R.string.search)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                query.toString().toLog("search submited")
+                query.toString().toLog("search submitted")
                 return false
             }
 

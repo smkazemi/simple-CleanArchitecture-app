@@ -3,21 +3,17 @@ package com.basalam.intern.android
 import android.content.Context
 import androidx.multidex.MultiDex
 import androidx.multidex.MultiDexApplication
-import com.basalam.intern.android.di.AppComponent
-import com.basalam.intern.android.di.DaggerAppComponent
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException
 import com.google.android.gms.common.GooglePlayServicesRepairableException
 import com.google.android.gms.security.ProviderInstaller
+import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 import java.security.KeyManagementException
 import java.security.NoSuchAlgorithmException
 import javax.net.ssl.SSLContext
 
+@HiltAndroidApp
 class App : MultiDexApplication() {
-
-    val appComponent: AppComponent by lazy {
-        DaggerAppComponent.factory().create(applicationContext)
-    }
 
     override fun onCreate() {
         super.onCreate()

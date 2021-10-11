@@ -5,6 +5,8 @@ import com.basalam.intern.android.util.Constant
 import com.basalam.intern.android.util.toLog
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -17,6 +19,7 @@ import java.util.concurrent.TimeUnit
  * on 5/18/2021.
  */
 
+@InstallIn(SingletonComponent::class)
 @Module
 class ApiModule {
 
