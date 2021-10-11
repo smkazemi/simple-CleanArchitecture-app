@@ -1,6 +1,8 @@
 package com.basalam.intern.android.data.repository
 
 import android.content.Context
+import com.basalam.intern.android.data.local.database.AppLocalDataBase
+import com.basalam.intern.android.data.mapper.AnimalFlowerMapper
 import com.basalam.intern.android.data.remote.BasalamService
 import com.basalam.intern.android.data.remote.model.AnimalFlowerModel
 import com.basalam.intern.android.data.remote.model.DataModel
@@ -12,12 +14,11 @@ import com.basalam.intern.android.util.NetworkUtils
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
-class AnimalFlowerRepository @Inject constructor(val api: BasalamService, @ApplicationContext val context: Context) {
-
-    private val mappedData: HashMap<String, List<AnimalFlowerModel>> = hashMapOf(
-        Constant.flower to listOf(),
-        Constant.animal to listOf()
-    )
+class AnimalFlowerRepository @Inject constructor(
+    val api: BasalamService,
+    @ApplicationContext val context: Context,
+    val db: AppLocalDataBase
+) {
 
     private suspend fun getAnimals(): NetworkResponse<DataModel?> {
 
@@ -105,13 +106,12 @@ class AnimalFlowerRepository @Inject constructor(val api: BasalamService, @Appli
 
             if (animalsResponse.data != null) {
 
-                mapAnimals(animalsResponse.data)
-
                 return if (flowerResponse.data != null) {
 
-                    mapFlower(flowerResponse.data)
+                    val result =
+                        AnimalFlowerMapper(flowers = flowerResponse.data.data).map(animals = animalsResponse.data.data)
 
-                    ApiResponse.success(mappedData)
+                    ApiResponse.success(result)
 
                 } else {
 
@@ -155,13 +155,26 @@ class AnimalFlowerRepository @Inject constructor(val api: BasalamService, @Appli
 
     }
 
-    private fun mapAnimals(data: DataModel) {
+    /**
+     * load data from database or getting from server*/
 
-        mappedData[Constant.animal] = data.data
-    }
-
-    private fun mapFlower(data: DataModel) {
-        mappedData[Constant.flower] = data.data
-    }
-
+// TODO
+//   suspend fun loadData(needUpdate: Boolean = false): ApiResponse<HashMap<String, List<AnimalFlowerModel>>> {
+//
+//        if (needUpdate) {
+//
+//
+//        } else {
+//
+//        }
+//
+//    }
+//
+//    private suspend fun loadAnimals(): List<AnimalFlowerModel>{
+//
+//    }
+//
+//    private suspend fun loadFlowers(): List<AnimalFlowerModel>{
+//
+//    }
 }

@@ -11,3 +11,12 @@ fun String.toLog(flag: String) {
 fun Activity.shortToast(mes: String) {
     Toast.makeText(this, mes, Toast.LENGTH_SHORT).show()
 }
+
+
+fun <I, O> List<I>.listMapper(transformer: (I) -> O): List<O> {
+
+    return this.map {
+        transformer(it)
+    }
+
+}
