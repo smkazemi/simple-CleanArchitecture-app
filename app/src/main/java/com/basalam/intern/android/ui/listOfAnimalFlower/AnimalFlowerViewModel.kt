@@ -26,9 +26,18 @@ class AnimalFlowerViewModel @Inject constructor() : ViewModel() {
         emit(ApiResponse.loading())
 
         // get animals and flowers list from server
-        val data = repository.getData()
+        val data = repository.loadData()
 
         emit(data)
+
+    }.flowOn(Dispatchers.IO)
+
+    /**
+     * search on name of flowers and animals saved in local database
+     * */
+    fun searchData(query: String) = flow<HashMap<String, List<String>>> {
+
+        emit(repository.searchData(query))
 
     }.flowOn(Dispatchers.IO)
 }

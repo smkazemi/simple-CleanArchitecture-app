@@ -6,7 +6,6 @@ import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
 import androidx.room.Update
 import com.basalam.intern.android.data.local.database.entity.FlowerEntity
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface FlowerDao {
@@ -18,5 +17,8 @@ interface FlowerDao {
     suspend fun updateAll(list: List<FlowerEntity>)
 
     @Query("SELECT * FROM flower")
-    fun getAll(): Flow<List<FlowerEntity>>
+    suspend fun getAll(): List<FlowerEntity>
+
+    @Query("SELECT name FROM flower WHERE name LIKE :query")
+    suspend fun searchByName(query: String): List<String>
 }

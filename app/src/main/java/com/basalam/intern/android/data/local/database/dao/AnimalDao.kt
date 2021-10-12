@@ -5,7 +5,6 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import com.basalam.intern.android.data.local.database.entity.AnimalEntity
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface AnimalDao {
@@ -17,5 +16,8 @@ interface AnimalDao {
     suspend fun updateAll(list: List<AnimalEntity>)
 
     @Query("SELECT * FROM animal")
-    fun getAll(): Flow<List<AnimalEntity>>
+    suspend fun getAll(): List<AnimalEntity>
+
+    @Query("SELECT name FROM animal WHERE name LIKE :query")
+    suspend fun searchByName(query: String): List<String>
 }

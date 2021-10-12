@@ -25,12 +25,14 @@ import com.basalam.intern.android.util.Constant
 import com.basalam.intern.android.util.shortToast
 import com.basalam.intern.android.util.toLog
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class AnimalFlowerListFragment : Fragment() {
 
+    private lateinit var animalFlowerAdapter: AnimalFlowerAdapter
     private var _binding: FragmentListAnimalFlowerBinding? = null
 
     // This property is only valid between onCreateView and
@@ -62,7 +64,7 @@ class AnimalFlowerListFragment : Fragment() {
 
         // everything start from here
         // fetch data of animals and flowers from server OR get from shared viewModel
-            viewLifecycleOwner.lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
 
             repeatOnLifecycle(Lifecycle.State.STARTED) {
 
@@ -98,6 +100,7 @@ class AnimalFlowerListFragment : Fragment() {
 
                 LOADING -> {
 
+                    // TODO : change with progressBar loading
                     requireActivity().shortToast(getString(R.string.loading))
                 }
 
@@ -120,14 +123,16 @@ class AnimalFlowerListFragment : Fragment() {
 
     private fun showList() {
 
+        animalFlowerAdapter = AnimalFlowerAdapter(
+            mainViewModel.animalList!!,
+            mainViewModel.flowerList!!,
+            this
+        )
+
         binding.recFragmentList.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(requireContext())
-            adapter = AnimalFlowerAdapter(
-                mainViewModel.animalList!!,
-                mainViewModel.flowerList!!,
-                this@AnimalFlowerListFragment
-            )
+            adapter = animalFlowerAdapter
         }
 
     }
@@ -174,6 +179,15 @@ class AnimalFlowerListFragment : Fragment() {
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 newText.toString().toLog("search")
+
+                viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
+
+                    viewModel.searchData(newText.toString()).collect {
+                        animalFlowerAdapter.updateList(animals = it[Constant.animal]!!, flowers = it[Constant.flower]!!)
+                    }
+
+                }
+
                 return true
             }
 

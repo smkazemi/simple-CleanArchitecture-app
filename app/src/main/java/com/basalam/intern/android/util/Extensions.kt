@@ -5,7 +5,7 @@ import android.widget.Toast
 import timber.log.Timber
 
 fun String.toLog(flag: String) {
-    Timber.tag("1TAG").d("$flag -> $this")
+    Timber.tag("12TAG").d("$flag -> $this")
 }
 
 fun Activity.shortToast(mes: String) {

@@ -2,6 +2,8 @@ package com.basalam.intern.android.data.repository
 
 import android.content.Context
 import com.basalam.intern.android.data.local.database.AppLocalDataBase
+import com.basalam.intern.android.data.local.database.entity.AnimalEntity
+import com.basalam.intern.android.data.local.database.entity.FlowerEntity
 import com.basalam.intern.android.data.mapper.AnimalFlowerMapper
 import com.basalam.intern.android.data.remote.BasalamService
 import com.basalam.intern.android.data.remote.model.AnimalFlowerModel
@@ -11,6 +13,7 @@ import com.basalam.intern.android.data.remote.response.NetworkResponse
 import com.basalam.intern.android.data.remote.response.NetworkStatus.*
 import com.basalam.intern.android.util.Constant
 import com.basalam.intern.android.util.NetworkUtils
+import com.basalam.intern.android.util.listMapper
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
@@ -84,7 +87,7 @@ class AnimalFlowerRepository @Inject constructor(
      * call api and getting data of animals and flowers
      * @return successful ApiResponse with data of map of animals and flowers list
      * if error occurred return error ApiResponse with data of null*/
-    suspend fun getData(): ApiResponse<HashMap<String, List<AnimalFlowerModel>>> {
+    private suspend fun getData(): ApiResponse<HashMap<String, List<AnimalFlowerModel>>> {
 
         val animalsResponse = getAnimals()
         val flowerResponse = getFlowers()
@@ -156,25 +159,108 @@ class AnimalFlowerRepository @Inject constructor(
     }
 
     /**
-     * load data from database or getting from server*/
+     * load data from database if exist
+     * if dataBase is empty or need to update it then first update database by getting new data from server second load saved data */
+    suspend fun loadData(needUpdate: Boolean = false): ApiResponse<HashMap<String, List<AnimalFlowerModel>>> {
 
-// TODO
-//   suspend fun loadData(needUpdate: Boolean = false): ApiResponse<HashMap<String, List<AnimalFlowerModel>>> {
-//
-//        if (needUpdate) {
-//
-//
-//        } else {
-//
-//        }
-//
-//    }
-//
-//    private suspend fun loadAnimals(): List<AnimalFlowerModel>{
-//
-//    }
-//
-//    private suspend fun loadFlowers(): List<AnimalFlowerModel>{
-//
-//    }
+        if (needUpdate) {
+
+            return refreshData(false)
+
+        } else {
+
+            val animals = loadAnimals()
+            val flowers = loadFlowers()
+
+            return if (animals.isEmpty() || flowers.isEmpty()) {
+
+                refreshData(true)
+
+            } else {
+
+                ApiResponse.success(AnimalFlowerMapper(flowers = flowers).map(animals = animals))
+
+            }
+
+        }
+
+    }
+
+    /**
+     *
+     * */
+    suspend fun searchData(query: String): HashMap<String, List<String>> {
+
+        val animals = db.animalDao().searchByName("%$query%")
+
+        val flowers = db.flowerDao().searchByName("%$query%")
+
+        return hashMapOf(
+            Constant.animal to animals,
+            Constant.flower to flowers
+        )
+
+    }
+
+    /**
+     * getting new data from server, update/save database then return saved/updated data*/
+    private suspend fun refreshData(isEmptyDatabase: Boolean): ApiResponse<HashMap<String, List<AnimalFlowerModel>>> {
+
+        val apiResponse = getData()
+
+        return if (apiResponse.status == SUCCESS) {
+
+            if (isEmptyDatabase) {
+                saveData(apiResponse.data!!)
+            } else {
+                updateData(apiResponse.data!!)
+            }
+
+            val animals = loadAnimals()
+            val flowers = loadFlowers()
+
+            ApiResponse.success(AnimalFlowerMapper(flowers = flowers).map(animals = animals))
+
+        } else {
+
+            apiResponse
+        }
+
+    }
+
+    private suspend fun updateData(data: java.util.HashMap<String, List<AnimalFlowerModel>>) {
+        val animals = data[Constant.animal]
+        val flowers = data[Constant.flower]
+
+        db.animalDao()
+            .updateAll(animals!!.listMapper { AnimalEntity(animalId = it.id, name = it.name, imageUrl = it.imageUrl) })
+        db.flowerDao()
+            .updateAll(flowers!!.listMapper { FlowerEntity(flowerId = it.id, name = it.name, imageUrl = it.imageUrl) })
+    }
+
+    private suspend fun saveData(data: HashMap<String, List<AnimalFlowerModel>>) {
+        val animals = data[Constant.animal]
+        val flowers = data[Constant.flower]
+
+        db.animalDao()
+            .insertAll(animals!!.listMapper { AnimalEntity(animalId = it.id, name = it.name, imageUrl = it.imageUrl) })
+        db.flowerDao()
+            .insertAll(flowers!!.listMapper { FlowerEntity(flowerId = it.id, name = it.name, imageUrl = it.imageUrl) })
+    }
+
+    private suspend fun loadAnimals(): List<AnimalFlowerModel> {
+
+        val animals = db.animalDao().getAll()
+
+        return (animals.listMapper { AnimalFlowerModel(id = it.animalId, name = it.name, imageUrl = it.imageUrl) })
+
+    }
+
+    private suspend fun loadFlowers(): List<AnimalFlowerModel> {
+
+        val animals = db.flowerDao().getAll()
+
+        return (animals.listMapper { AnimalFlowerModel(id = it.flowerId, name = it.name, imageUrl = it.imageUrl) })
+
+    }
 }
