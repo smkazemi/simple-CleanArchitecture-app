@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/ListFragment"
-        android:name="com.basalam.intern.android.ui.listOfAnimalFlower.AnimalFlowerListFragment"
+        android:name="com.basalam.intern.android.features.listOfAnimalFlower.presentation.AnimalFlowerListFragment"
         android:label="@string/fragment_label"
         tools:layout="@layout/fragment_list_animal_flower">
 
@@ -22,7 +22,7 @@
 
     <fragment
         android:id="@+id/ContentFragment"
-        android:name="com.basalam.intern.android.ui.contentOfList.ContentFragment"
+        android:name="com.basalam.intern.android.features.contentOfList.presentation.ContentFragment"
         android:label="@string/fragment_label"
         tools:layout="@layout/fragment_content">
 
@@ -35,7 +35,7 @@
             app:popExitAnim="@anim/slide_out_right"/>
         <argument
             android:name="model"
-            app:argType="com.basalam.intern.android.ui.listOfAnimalFlower.adapter.AnimalFlowerItemModel" />
+            app:argType="com.basalam.intern.android.features.listOfAnimalFlower.domain.model.AnimalFlowerItemModel" />
 
     </fragment>
 

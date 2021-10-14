@@ -6,11 +6,11 @@
 
         <variable
             name="model"
-            type="com.basalam.intern.android.ui.listOfAnimalFlower.adapter.AnimalFlowerItemModel" />
+            type="com.basalam.intern.android.features.listOfAnimalFlower.domain.model.AnimalFlowerItemModel" />
 
         <variable
             name="owner"
-            type="com.basalam.intern.android.ui.listOfAnimalFlower.AnimalFlowerListFragment" />
+            type="com.basalam.intern.android.features.listOfAnimalFlower.presentation.AnimalFlowerListFragment" />
 
     </data>
 

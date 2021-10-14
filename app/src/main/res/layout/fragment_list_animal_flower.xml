@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#E5E5E5"
     android:fitsSystemWindows="true"
-    tools:context=".ui.listOfAnimalFlower.AnimalFlowerListFragment">
+    tools:context=".features.listOfAnimalFlower.presentation.AnimalFlowerListFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"

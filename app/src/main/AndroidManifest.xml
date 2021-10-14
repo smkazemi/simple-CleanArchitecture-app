@@ -15,7 +15,7 @@
         android:theme="@style/Theme.MyApplication">
 
         <activity
-            android:name=".ui.main.MainActivity"
+            android:name="com.basalam.intern.android.common.presentation.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.MyApplication.NoActionBar">
             <intent-filter>
